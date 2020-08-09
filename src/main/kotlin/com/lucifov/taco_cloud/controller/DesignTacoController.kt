@@ -25,11 +25,11 @@ class DesignTacoController(@Autowired val ingredientRepository: IngredientReposi
         private val log: Logger by LoggerDelegate<Companion>()
     }
 
-    @ModelAttribute
-    fun addAttributes(model: Model){
-        model.addAttribute("order", Order())
-        model.addAttribute("design", Design())
-    }
+    @ModelAttribute("order")
+    fun getOrder(): Order = Order()
+
+    @ModelAttribute("design")
+    fun getDesign(): Design = Design()
 
     @ModelAttribute
     fun addIngredientsToModel(model: Model) {

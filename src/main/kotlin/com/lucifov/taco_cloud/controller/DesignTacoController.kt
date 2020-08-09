@@ -34,6 +34,7 @@ class DesignTacoController(@Autowired val ingredientRepository: IngredientReposi
     @ModelAttribute
     fun addIngredientsToModel(model: Model) {
         val ingredients = ingredientRepository.findAll().toList()
+        log.debug("ingredients read from database: $ingredients")
         Ingredient.Type.values().forEach { type ->
             model.addAttribute(type.toString().toLowerCase(), ingredients.filter { ingredient ->
                 ingredient.type == type
@@ -45,7 +46,6 @@ class DesignTacoController(@Autowired val ingredientRepository: IngredientReposi
     @GetMapping
     fun showDesignForm(model: Model): String {
         log.debug("show design form")
-        log.debug(model.asMap().toString())
         return "design"
     }
 
@@ -58,10 +58,10 @@ class DesignTacoController(@Autowired val ingredientRepository: IngredientReposi
         log.debug("Processing design: $design")
         val saved: Taco = tacoRepository.save(design.toTaco())
 
-        order.designs.add(saved)
+        order.tacos.add(saved)
 
         return "redirect:/orders/current"
     }
 
-    private fun Design.toTaco(): Taco = Taco(name = name, ingredients = ingredients.map { ingredientRepository.findOne(it) })
+    private fun Design.toTaco(): Taco = Taco(name = name, ingredients = ingredients.map { ingredientRepository.findById(it).get() }.toMutableList())
 }

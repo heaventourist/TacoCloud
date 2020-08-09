@@ -99,7 +99,7 @@
   </appender>
 
 
-  <logger name="com.example.taco_cloud" level="debug" additivity="true">
+  <logger name="com.lucifov.taco_cloud" level="debug" additivity="true">
     <appender-ref ref="infoAppender"/>
     <appender-ref ref="debugAppender"/>
     <appender-ref ref="errorAppender"/>

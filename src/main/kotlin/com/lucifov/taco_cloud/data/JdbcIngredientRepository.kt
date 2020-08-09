@@ -19,9 +19,9 @@ class JdbcIngredientRepository(@Autowired private val jdbc: JdbcTemplate): Ingre
         return jdbc.query("select id, name, type from Ingredient", mapRowToIngredient)
     }
 
-    override fun findOne(id: String): Ingredient? {
+    override fun findOne(id: String): Ingredient {
         return jdbc.queryForObject("select id, name, type from Ingredient where id=?",
-                mapRowToIngredient, id)
+                mapRowToIngredient, id) ?: throw Exception("Ingredient id: $id not found")
     }
 
     override fun save(ingredient: Ingredient): Ingredient {
